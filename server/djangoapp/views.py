@@ -30,6 +30,7 @@ def get_cars(request):
                     "CarMake": car_model.car_make.name})
     return JsonResponse({"CarModels": cars})
 
+
 # Create a `login_request` view to handle sign in request
 @csrf_exempt
 def login_user(request):
@@ -49,7 +50,7 @@ def login_user(request):
 
 # Create a `logout_request` view to handle sign out request
 def logout_request(request):
-    data = {"userName": ""} 
+    data = {"userName": ""}
     # Return empty username
     return JsonResponse(data)
 
@@ -78,8 +79,12 @@ def registration(request):
     # If it is a new user
     if not username_exist:
         # Create user in auth_user table
-        user = User.objects.create_user(username=username,
-                first_name=first_name, last_name=last_name, password=password, email=email)
+        user = User.objects.create_user(
+                username=username,
+                first_name=first_name,
+                last_name=last_name, password=password,
+                email=email
+            )
         # Login the user and redirect to list page
         login(request, user)
         data = {"userName": username, "status": "Authenticated"}
