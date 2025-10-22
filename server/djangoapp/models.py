@@ -16,6 +16,7 @@ class CarMake(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     # Other fields as needed
+    
     def __str__(self):
         return self.name  # Return the name as the string representation
 
@@ -31,7 +32,7 @@ class CarMake(models.Model):
 # - __str__ method to print a car make object
 
 class CarModel(models.Model):
-    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE) 
+    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
     # Many-to-One relationship
     name = models.CharField(max_length=100)
     CAR_TYPES = [
