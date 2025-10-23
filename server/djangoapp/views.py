@@ -2,7 +2,7 @@
 
 from django.contrib.auth.models import User
 from .models import CarMake, CarModel
-from .restapis import get_request, analyze_review_sentiments
+from .restapis import get_request, analyze_review_sentiments, post_review
 
 from django.http import JsonResponse
 from django.contrib.auth import login, authenticate
@@ -102,6 +102,7 @@ def get_dealerships(request, state="All"):
     else:
         endpoint = "/fetchDealers/"+state
     dealerships = get_request(endpoint)
+
     return JsonResponse({"status": 200, "dealers": dealerships})
 
 
@@ -129,10 +130,12 @@ def get_dealer_details(request, dealer_id):
 
 
 def add_review(request):
-    if not request.user.is_anonymous:
+    if(request.user.is_anonymous == False):
+        data = json.loads(request.body)
         try:
+            post_review(data)
             return JsonResponse({"status": 200})
         except Exception as e:
-            return JsonResponse({"status": 401, "message": e})
+            return JsonResponse({"status":401,"message":"Error in posting review"})
     else:
         return JsonResponse({"status": 403, "message": "Unauthorized"})
